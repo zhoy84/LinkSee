@@ -156,7 +156,7 @@ function App() {
       {/* 页脚 */}
       <footer className="border-t border-gray-800 mt-16 py-8">
         <div className="max-w-6xl mx-auto px-4 text-center text-sm text-gray-500">
-          <p>LinkSee © 2026 - 极简在线工具箱</p>
+          <p>LinkSee © 2026 - 灵犀在线工具箱</p>
           <p className="mt-2 text-xs">
             数据存储在本地 · 无广告 · 隐私优先
           </p>

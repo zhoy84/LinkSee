@@ -51,27 +51,47 @@ export default function HistoryList({ records: initialRecords = [] }) {
     }
   };
 
-  // 格式化时间
-  const formatTime = (isoString) => {
-    const date = new Date(isoString);
-    const now = new Date();
-    const diff = now - date;
-    
-    // 刚刚（1 分钟内）
-    if (diff < 60000) {
-      return '刚刚';
-    }
-    // 几分钟前
-    if (diff < 3600000) {
-      return `${Math.floor(diff / 60000)}分钟前`;
-    }
-    // 几小时前
-    if (diff < 86400000) {
-      return `${Math.floor(diff / 3600000)}小时前`;
-    }
-    // 几天前
-    return `${Math.floor(diff / 86400000)}天前`;
-  };
+// 格式化时间
+const formatTime = (isoString) => {
+  if (!isoString) return '';
+  
+  const date = new Date(isoString);
+  // 检查日期是否有效
+  if (isNaN(date.getTime())) {
+    return '时间未知';
+  }
+  
+  const now = new Date();
+  const diff = now - date;
+  
+  // 刚刚（1 分钟内）
+  if (diff < 60000) {
+    return '刚刚';
+  }
+  // 几分钟前
+  if (diff < 3600000) {
+    const mins = Math.floor(diff / 60000);
+    return mins >= 1 ? `${mins}分钟前` : '1 分钟前';
+  }
+  // 几小时前
+  if (diff < 86400000) {
+    const hours = Math.floor(diff / 3600000);
+    return hours >= 1 ? `${hours}小时前` : '1 小时前';
+  }
+  // 几天前
+  const days = Math.floor(diff / 86400000);
+  if (days < 30) {
+    return `${days}天前`;
+  }
+  // 几个月前
+  const months = Math.floor(days / 30);
+  if (months < 12) {
+    return `${months}个月前`;
+  }
+  // 几年前
+  const years = Math.floor(months / 12);
+  return `${years}年前`;
+};
 
   if (records.length === 0) {
     return (
