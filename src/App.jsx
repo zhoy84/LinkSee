@@ -40,9 +40,9 @@ function App() {
     // 将新记录添加到最前面，保留最近 10 条
     const newRecords = [historyItem, ...existingRecords].slice(0, 10);
     localStorage.setItem('linksee-history', JSON.stringify(newRecords));
-    
-    // 触发存储事件，让 HistoryList 组件知道数据已更新
-    window.dispatchEvent(new StorageEvent('storage', { key: 'linksee-history' }));
+
+    // 触发自定义事件，让 HistoryList 组件知道数据已更新
+    window.dispatchEvent(new CustomEvent('linksee-history-update'));
   }, []);
 
   // 复制链接

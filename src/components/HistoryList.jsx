@@ -10,16 +10,51 @@ import { twMerge } from 'tailwind-merge';
 export default function HistoryList({ records: initialRecords = [] }) {
   const [records, setRecords] = useState([]);
 
-  // 初始化时从 localStorage 加载
-  useEffect(() => {
+  // 从 localStorage 加载记录
+  const loadRecords = () => {
     const saved = localStorage.getItem('linksee-history');
     if (saved) {
       try {
-        setRecords(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        setRecords(parsed);
+        console.log('加载历史记录:', parsed.length, '条');
       } catch (e) {
         console.error('读取历史记录失败', e);
       }
     }
+  };
+
+  // 初始化时加载记录
+  useEffect(() => {
+    loadRecords();
+    
+    // 监听存储事件（当其他标签页或代码更新 localStorage 时）
+    const handleStorageChange = (e) => {
+      if (e.key === 'linksee-history' || e.type === 'storage') {
+        console.log('检测到存储变化，重新加载记录');
+        loadRecords();
+      }
+    };
+
+    // 使用自定义事件监听同一页面内的更新
+    const handleCustomStorageChange = () => {
+      console.log('检测到自定义存储事件，重新加载记录');
+      loadRecords();
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('linksee-history-update', handleCustomStorageChange);
+    
+    // 定期检查（兜底方案）
+    const interval = setInterval(() => {
+      loadRecords();
+    }, 1000);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('linksee-history-update', handleCustomStorageChange);
+      clearInterval(interval);
+    };
   }, []);
 
   // 保存到 localStorage
@@ -104,7 +139,7 @@ const formatTime = (isoString) => {
   return (
     <div className="w-full max-w-2xl mx-auto mt-8 space-y-3">
       <h3 className="text-lg font-semibold text-gray-200 mb-4">历史记录</h3>
-      
+
       {records.map((record, index) => (
         <div
           key={index}
@@ -132,7 +167,7 @@ const formatTime = (isoString) => {
           </div>
 
           {/* 操作按钮 */}
-          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="flex items-center gap-2">
             {/* 复制链接 */}
             <button
               onClick={() => copyLink(record.url)}
@@ -142,15 +177,15 @@ const formatTime = (isoString) => {
               <Copy className="w-4 h-4" />
             </button>
 
-            {/* 在新标签页打开 */}
+            {/* 查看按钮（始终显示） */}
             <a
               href={record.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded hover:bg-gray-700 text-gray-400 hover:text-gray-200 transition-colors"
+              className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded transition-colors"
               title="在新标签页打开"
             >
-              <ExternalLink className="w-4 h-4" />
+              查看
             </a>
 
             {/* 删除 */}
