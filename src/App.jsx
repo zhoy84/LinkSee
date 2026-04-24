@@ -26,15 +26,23 @@ function App() {
     setCurrentResult(result);
     setCopySuccess(false);
 
-    // 保存到历史记录
+    // 从 localStorage 读取现有记录
+    const saved = localStorage.getItem('linksee-history');
+    const existingRecords = saved ? JSON.parse(saved) : [];
+    
+    // 添加新记录
     const historyItem = {
       url: result.url,
       name: result.name,
       timestamp: result.timestamp,
     };
     
-    // 触发历史记录的自定义事件
-    window.dispatchEvent(new CustomEvent('linksee-upload', { detail: historyItem }));
+    // 将新记录添加到最前面，保留最近 10 条
+    const newRecords = [historyItem, ...existingRecords].slice(0, 10);
+    localStorage.setItem('linksee-history', JSON.stringify(newRecords));
+    
+    // 触发存储事件，让 HistoryList 组件知道数据已更新
+    window.dispatchEvent(new StorageEvent('storage', { key: 'linksee-history' }));
   }, []);
 
   // 复制链接
