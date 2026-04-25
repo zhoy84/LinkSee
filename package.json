@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "LinkSee - 极简在线工具箱",
+  "description": "LinkSee - 灵犀在线工具箱",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
