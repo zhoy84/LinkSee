@@ -259,13 +259,13 @@ export default function ImageConverter() {
 
       {/* 全局设置 */}
       {files.length > 0 && (
-        <div className="mt-8 bg-gray-800/50 rounded-xl border border-gray-700 p-6">
+        <div className="mt-8 bg-gray-800/50 rounded-xl border border-gray-700 p-4 sm:p-6">
           <div className="flex items-center gap-2 mb-4">
             <Settings className="w-5 h-5 text-blue-400" />
             <h3 className="text-lg font-semibold text-gray-200">全局设置</h3>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* 目标格式 */}
             <div>
               <label className="block text-sm text-gray-400 mb-2">
@@ -307,73 +307,74 @@ export default function ImageConverter() {
               </div>
             </div>
 
-            {/* 尺寸调整 */}
-            <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                id="resize"
-                checked={globalSettings.resize}
-                onChange={(e) =>
-                  setGlobalSettings({ ...globalSettings, resize: e.target.checked })
-                }
-                className="w-4 h-4 accent-blue-500"
-              />
-              <label htmlFor="resize" className="text-sm text-gray-400">
-                限制尺寸
-              </label>
+            {/* 尺寸调整 - 在移动端占满一行 */}
+            <div className="sm:col-span-2 lg:col-span-2">
+              <div className="flex items-center gap-2 mb-2">
+                <input
+                  type="checkbox"
+                  id="resize"
+                  checked={globalSettings.resize}
+                  onChange={(e) =>
+                    setGlobalSettings({ ...globalSettings, resize: e.target.checked })
+                  }
+                  className="w-4 h-4 accent-blue-500"
+                />
+                <label htmlFor="resize" className="text-sm text-gray-400">
+                  限制尺寸（保持比例）
+                </label>
+              </div>
+              
+              {globalSettings.resize && (
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-1">
+                      最大宽度 (px)
+                    </label>
+                    <input
+                      type="number"
+                      value={globalSettings.maxWidth}
+                      onChange={(e) =>
+                        setGlobalSettings({ ...globalSettings, maxWidth: parseInt(e.target.value) || 0 })
+                      }
+                      className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-1">
+                      最大高度 (px)
+                    </label>
+                    <input
+                      type="number"
+                      value={globalSettings.maxHeight}
+                      onChange={(e) =>
+                        setGlobalSettings({ ...globalSettings, maxHeight: parseInt(e.target.value) || 0 })
+                      }
+                      className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-
-            {/* 最大宽度 */}
-            {globalSettings.resize && (
-              <>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">
-                    最大宽度
-                  </label>
-                  <input
-                    type="number"
-                    value={globalSettings.maxWidth}
-                    onChange={(e) =>
-                      setGlobalSettings({ ...globalSettings, maxWidth: parseInt(e.target.value) || 0 })
-                    }
-                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">
-                    最大高度
-                  </label>
-                  <input
-                    type="number"
-                    value={globalSettings.maxHeight}
-                    onChange={(e) =>
-                      setGlobalSettings({ ...globalSettings, maxHeight: parseInt(e.target.value) || 0 })
-                    }
-                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-              </>
-            )}
           </div>
         </div>
       )}
 
       {/* 操作按钮 */}
       {files.length > 0 && (
-        <div className="mt-6 flex items-center justify-between">
-          <div className="text-sm text-gray-400">
+        <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <div className="text-sm text-gray-400 whitespace-nowrap">
             共 {files.length} 张图片
             {processing && (
-              <span className="ml-2 text-blue-400">
+              <span className="ml-2 text-blue-400 block sm:inline">
                 处理中：{progress.current} / {progress.total}
               </span>
             )}
           </div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 justify-end">
             <button
               onClick={handleClearAll}
-              className="px-4 py-2 text-sm text-gray-400 hover:text-gray-200 transition-colors"
+              className="px-4 py-2 text-sm text-gray-400 hover:text-gray-200 transition-colors whitespace-nowrap"
             >
               清空所有
             </button>
@@ -382,22 +383,22 @@ export default function ImageConverter() {
               onClick={handleProcessAll}
               disabled={processing || files.every((f) => f.status !== 'pending')}
               className={twMerge(
-                'px-6 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+                'px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 whitespace-nowrap',
                 processing || files.every((f) => f.status !== 'pending')
                   ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
                   : 'bg-blue-600 hover:bg-blue-700 text-white'
               )}
             >
-              <Zap className="w-4 h-4" />
+              <Zap className="w-4 h-4 flex-shrink-0" />
               批量处理
             </button>
             
             {files.some((f) => f.processed) && (
               <button
                 onClick={handleDownloadAll}
-                className="px-6 py-2 rounded-lg text-sm font-medium bg-green-600 hover:bg-green-700 text-white transition-all flex items-center gap-2"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-green-600 hover:bg-green-700 text-white transition-all flex items-center justify-center gap-2 whitespace-nowrap"
               >
-                <Package className="w-4 h-4" />
+                <Package className="w-4 h-4 flex-shrink-0" />
                 打包下载
               </button>
             )}
@@ -436,9 +437,9 @@ function FileCard({ fileItem, onProcess, onDownload, onRemove, globalSettings })
     : formatFileSize(processed?.size || 0);
 
   return (
-    <div className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-800/50 rounded-lg border border-gray-700">
       {/* 预览图 */}
-      <div className="w-20 h-20 rounded overflow-hidden flex-shrink-0 bg-gray-700">
+      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded overflow-hidden flex-shrink-0 bg-gray-700">
         <img
           src={URL.createObjectURL(file)}
           alt={file.name}
@@ -451,14 +452,14 @@ function FileCard({ fileItem, onProcess, onDownload, onRemove, globalSettings })
         <p className="text-sm font-medium text-gray-200 truncate">
           {file.name}
         </p>
-        <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
-          <span>{info?.width} × {info?.height}</span>
-          <span>•</span>
-          <span>{formatFileSize(file.size)}</span>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-gray-400">
+          <span className="whitespace-nowrap">{info?.width} × {info?.height}</span>
+          <span className="hidden sm:inline">•</span>
+          <span className="whitespace-nowrap">{formatFileSize(file.size)}</span>
           {status === 'done' && processed && (
             <>
-              <span>•</span>
-              <span className="text-green-400">
+              <span className="hidden sm:inline">•</span>
+              <span className="text-green-400 whitespace-nowrap">
                 {formatFileSize(file.size)} → {estimatedSize}
               </span>
             </>
@@ -475,11 +476,11 @@ function FileCard({ fileItem, onProcess, onDownload, onRemove, globalSettings })
       </div>
 
       {/* 操作按钮 */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 w-full sm:w-auto justify-end sm:justify-start">
         {status === 'pending' && (
           <button
             onClick={onProcess}
-            className="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded transition-colors"
+            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded transition-colors whitespace-nowrap"
           >
             处理
           </button>
@@ -488,7 +489,7 @@ function FileCard({ fileItem, onProcess, onDownload, onRemove, globalSettings })
         {status === 'done' && (
           <button
             onClick={onDownload}
-            className="px-4 py-1.5 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded transition-colors flex items-center gap-1"
+            className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded transition-colors flex items-center gap-1 whitespace-nowrap"
           >
             <Download className="w-3 h-3" />
             下载
@@ -497,7 +498,7 @@ function FileCard({ fileItem, onProcess, onDownload, onRemove, globalSettings })
         
         <button
           onClick={onRemove}
-          className="p-2 rounded hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors"
+          className="p-2 rounded hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors flex-shrink-0"
           title="删除"
         >
           <Trash2 className="w-4 h-4" />
