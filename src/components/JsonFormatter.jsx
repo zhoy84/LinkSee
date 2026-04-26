@@ -10,6 +10,7 @@ export default function JsonFormatter() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
+  const [inputError, setInputError] = useState('');
   const [mode, setMode] = useState('format'); // format | compress | validate | typescript
   const [copied, setCopied] = useState(false);
 
@@ -17,9 +18,10 @@ export default function JsonFormatter() {
   const processJson = useCallback(() => {
     setError('');
     setOutput('');
+    setInputError('');
 
     if (!input.trim()) {
-      setError('请输入 JSON 内容');
+      setInputError('请输入 JSON 内容');
       return;
     }
 
@@ -158,10 +160,19 @@ export default function JsonFormatter() {
           </div>
           <textarea
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => { setInput(e.target.value); setInputError(''); }}
             placeholder='{"name": "LinkSee", "version": 1.0}'
-            className="w-full h-64 bg-gray-800/50 border border-gray-700 rounded-xl p-4 text-sm font-mono text-gray-200 placeholder-gray-500 focus:outline-none focus:border-blue-500 resize-none"
+            className={twMerge(
+              'w-full h-64 bg-gray-800/50 border rounded-xl p-4 text-sm font-mono text-gray-200 placeholder-gray-500 focus:outline-none resize-none',
+              inputError ? 'border-red-500/50' : 'border-gray-700 focus:border-blue-500'
+            )}
           />
+          {inputError && (
+            <p className="text-xs text-red-400 flex items-center gap-1">
+              <AlertCircle className="w-3 h-3" />
+              {inputError}
+            </p>
+          )}
         </div>
 
         {/* 输出 */}
