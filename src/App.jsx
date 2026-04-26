@@ -95,7 +95,7 @@ function App() {
             <button
               onClick={() => setActiveTool('uploader')}
               className={twMerge(
-                'px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+                'px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap',
                 activeTool === 'uploader'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
@@ -107,7 +107,7 @@ function App() {
             <button
               onClick={() => setActiveTool('converter')}
               className={twMerge(
-                'px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+                'px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap',
                 activeTool === 'converter'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
@@ -119,7 +119,7 @@ function App() {
             <button
               onClick={() => setActiveTool('json')}
               className={twMerge(
-                'px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+                'px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap',
                 activeTool === 'json'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
