@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react';
-import { Image as ImageIcon, Link as LinkIcon, Sparkles, Scissors } from 'lucide-react';
+import { Image as ImageIcon, Link as LinkIcon, Sparkles, Scissors, FileJson } from 'lucide-react';
 import ImageUploader from './components/ImageUploader';
 import HistoryList from './components/HistoryList';
 import ImageConverter from './components/ImageConverter';
+import JsonFormatter from './components/JsonFormatter';
 import { twMerge } from 'tailwind-merge';
 
 /**
@@ -19,7 +20,7 @@ const generateFileName = (url) => {
  */
 function App() {
   // 当前激活的工具
-  const [activeTool, setActiveTool] = useState('uploader'); // 'uploader' | 'converter'
+  const [activeTool, setActiveTool] = useState('uploader'); // 'uploader' | 'converter' | 'json'
   
   // 当前上传结果
   const [currentResult, setCurrentResult] = useState(null);
@@ -115,6 +116,18 @@ function App() {
               <Scissors className="w-4 h-4" />
               格式转换与压缩
             </button>
+            <button
+              onClick={() => setActiveTool('json')}
+              className={twMerge(
+                'px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+                activeTool === 'json'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-400 hover:text-gray-200'
+              )}
+            >
+              <FileJson className="w-4 h-4" />
+              JSON 工具
+            </button>
           </div>
         </div>
 
@@ -139,6 +152,18 @@ function App() {
             <p className="text-gray-400 max-w-xl mx-auto">
               纯前端处理，支持多格式互转、智能压缩、批量处理。
               隐私优先，图片不上传服务器。
+            </p>
+          </div>
+        )}
+
+        {activeTool === 'json' && (
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">
+              JSON 格式化工具
+            </h2>
+            <p className="text-gray-400 max-w-xl mx-auto">
+              格式化、压缩、校验、JSON 转 TypeScript 类型。
+              纯前端处理，保护您的数据隐私。
             </p>
           </div>
         )}
@@ -215,6 +240,11 @@ function App() {
         {/* 格式转换组件 */}
         {activeTool === 'converter' && (
           <ImageConverter />
+        )}
+
+        {/* JSON 工具组件 */}
+        {activeTool === 'json' && (
+          <JsonFormatter />
         )}
       </main>
 
