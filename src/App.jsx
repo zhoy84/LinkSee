@@ -138,8 +138,7 @@ function App() {
               图片一键转链接
             </h2>
             <p className="text-gray-400 max-w-xl mx-auto">
-              支持拖拽上传、粘贴板粘贴，自动保存到历史记录。
-              所有数据存储在本地，保护您的隐私。
+              拖拽上传 · 粘贴板粘贴 · 本地存储 · 隐私优先
             </p>
           </div>
         )}
@@ -150,8 +149,7 @@ function App() {
               图片格式转换与压缩大师
             </h2>
             <p className="text-gray-400 max-w-xl mx-auto">
-              纯前端处理，支持多格式互转、智能压缩、批量处理。
-              隐私优先，图片不上传服务器。
+              多格式互转 · 智能压缩 · 批量处理 · 纯前端
             </p>
           </div>
         )}
@@ -162,8 +160,7 @@ function App() {
               JSON 格式化工具
             </h2>
             <p className="text-gray-400 max-w-xl mx-auto">
-              格式化、压缩、校验、JSON 转 TypeScript 类型。
-              纯前端处理，保护您的数据隐私。
+              格式化 · 压缩 · 校验 · JSON→TypeScript
             </p>
           </div>
         )}

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Copy, Check, AlertCircle, ArrowRightLeft, FileCode, Compress, Expand } from 'lucide-react';
+import { Copy, Check, AlertCircle, ArrowRightLeft, FileCode, Minimize2, Expand } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
 /**
@@ -72,7 +72,7 @@ export default function JsonFormatter() {
       
       const properties = keys.map(key => {
         const valueType = jsonToTypeScript(obj[key], key.charAt(0).toUpperCase() + key.slice(1), indent + 1);
-        const optional = Array.isArray(obj) ? '' : '?';
+        const optional = obj[key] === null ? '?' : '';
         return `${spaces}  ${key}${optional}: ${valueType};`;
       }).join('\n');
       
@@ -107,15 +107,15 @@ export default function JsonFormatter() {
 
   const modes = [
     { id: 'format', label: '格式化', icon: Expand },
-    { id: 'compress', label: '压缩', icon: Compress },
+    { id: 'compress', label: '压缩', icon: Minimize2 },
     { id: 'validate', label: '校验', icon: AlertCircle },
     { id: 'typescript', label: '转TS类型', icon: FileCode },
   ];
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6">
-      {/* 模式选择 */}
-      <div className="flex justify-center">
+      {/* 模式选择 + 操作按钮 */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
         <div className="inline-flex bg-gray-800/50 rounded-xl p-1 border border-gray-700">
           {modes.map(({ id, label, icon: Icon }) => (
             <button
@@ -133,6 +133,13 @@ export default function JsonFormatter() {
             </button>
           ))}
         </div>
+        <button
+          onClick={processJson}
+          className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all flex items-center gap-2 whitespace-nowrap"
+        >
+          <ArrowRightLeft className="w-4 h-4" />
+          开始处理
+        </button>
       </div>
 
       {/* 输入输出区域 */}
@@ -140,7 +147,7 @@ export default function JsonFormatter() {
         {/* 输入 */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-gray-300">输入 JSON</label>
+            <label className="text-sm font-medium text-gray-300 whitespace-nowrap">输入JSON</label>
             <button
               onClick={handlePaste}
               className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1"
@@ -160,7 +167,7 @@ export default function JsonFormatter() {
         {/* 输出 */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-gray-300">输出结果</label>
+            <label className="text-sm font-medium text-gray-300 whitespace-nowrap">输出结果</label>
             <button
               onClick={handleCopy}
               disabled={!output}
@@ -187,16 +194,7 @@ export default function JsonFormatter() {
         </div>
       </div>
 
-      {/* 操作按钮 */}
-      <div className="flex justify-center">
-        <button
-          onClick={processJson}
-          className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all flex items-center gap-2"
-        >
-          <ArrowRightLeft className="w-5 h-5" />
-          开始处理
-        </button>
-      </div>
+
     </div>
   );
 }
