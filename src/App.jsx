@@ -96,49 +96,49 @@ function App() {
             <button
               onClick={() => setActiveTool('uploader')}
               className={twMerge(
-                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 whitespace-nowrap',
+                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5',
                 activeTool === 'uploader'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
               )}
             >
-              <ImageIcon className="w-3.5 h-3.5" />
+              <ImageIcon className="w-3.5 h-3.5 flex-shrink-0" />
               <span className="hidden xs:inline">图片</span>转链接
             </button>
             <button
               onClick={() => setActiveTool('converter')}
               className={twMerge(
-                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 whitespace-nowrap',
+                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5',
                 activeTool === 'converter'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
               )}
             >
-              <Scissors className="w-3.5 h-3.5" />
+              <Scissors className="w-3.5 h-3.5 flex-shrink-0" />
               <span className="hidden xs:inline">格式</span>转换
             </button>
             <button
               onClick={() => setActiveTool('json')}
               className={twMerge(
-                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 whitespace-nowrap',
+                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5',
                 activeTool === 'json'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
               )}
             >
-              <FileJson className="w-3.5 h-3.5" />
+              <FileJson className="w-3.5 h-3.5 flex-shrink-0" />
               JSON
             </button>
             <button
               onClick={() => setActiveTool('base64')}
               className={twMerge(
-                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 whitespace-nowrap',
+                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5',
                 activeTool === 'base64'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
               )}
             >
-              <FileJson className="w-3.5 h-3.5" />
+              <Binary className="w-3.5 h-3.5 flex-shrink-0" />
               Base64
             </button>
           </div>
