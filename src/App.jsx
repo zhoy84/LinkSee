@@ -1,9 +1,10 @@
 import { useState, useCallback } from 'react';
-import { Image as ImageIcon, Link as LinkIcon, Sparkles, Scissors, FileJson } from 'lucide-react';
+import { Image as ImageIcon, Link as LinkIcon, Sparkles, Scissors, FileJson, Binary } from 'lucide-react';
 import ImageUploader from './components/ImageUploader';
 import HistoryList from './components/HistoryList';
 import ImageConverter from './components/ImageConverter';
 import JsonFormatter from './components/JsonFormatter';
+import Base64Tool from './components/Base64Tool';
 import { twMerge } from 'tailwind-merge';
 
 /**
@@ -20,7 +21,7 @@ const generateFileName = (url) => {
  */
 function App() {
   // 当前激活的工具
-  const [activeTool, setActiveTool] = useState('uploader'); // 'uploader' | 'converter' | 'json'
+  const [activeTool, setActiveTool] = useState('uploader'); // 'uploader' | 'converter' | 'json' | 'base64'
   
   // 当前上传结果
   const [currentResult, setCurrentResult] = useState(null);
@@ -95,38 +96,50 @@ function App() {
             <button
               onClick={() => setActiveTool('uploader')}
               className={twMerge(
-                'px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap',
+                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 whitespace-nowrap',
                 activeTool === 'uploader'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
               )}
             >
-              <ImageIcon className="w-4 h-4" />
-              图片转链接
+              <ImageIcon className="w-3.5 h-3.5" />
+              <span className="hidden xs:inline">图片</span>转链接
             </button>
             <button
               onClick={() => setActiveTool('converter')}
               className={twMerge(
-                'px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap',
+                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 whitespace-nowrap',
                 activeTool === 'converter'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
               )}
             >
-              <Scissors className="w-4 h-4" />
-              格式转换与压缩
+              <Scissors className="w-3.5 h-3.5" />
+              <span className="hidden xs:inline">格式</span>转换
             </button>
             <button
               onClick={() => setActiveTool('json')}
               className={twMerge(
-                'px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap',
+                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 whitespace-nowrap',
                 activeTool === 'json'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
               )}
             >
-              <FileJson className="w-4 h-4" />
-              JSON 工具
+              <FileJson className="w-3.5 h-3.5" />
+              JSON
+            </button>
+            <button
+              onClick={() => setActiveTool('base64')}
+              className={twMerge(
+                'px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 whitespace-nowrap',
+                activeTool === 'base64'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-400 hover:text-gray-200'
+              )}
+            >
+              <FileJson className="w-3.5 h-3.5" />
+              Base64
             </button>
           </div>
         </div>
@@ -161,6 +174,17 @@ function App() {
             </h2>
             <p className="text-gray-400 max-w-xl mx-auto">
               格式化 · 压缩 · 校验 · JSON→TypeScript
+            </p>
+          </div>
+        )}
+
+        {activeTool === 'base64' && (
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">
+              Base64 编解码工具
+            </h2>
+            <p className="text-gray-400 max-w-xl mx-auto">
+              编码·解码·URL安全编码
             </p>
           </div>
         )}
@@ -242,6 +266,11 @@ function App() {
         {/* JSON 工具组件 */}
         {activeTool === 'json' && (
           <JsonFormatter />
+        )}
+
+        {/* Base64 工具组件 */}
+        {activeTool === 'base64' && (
+          <Base64Tool />
         )}
       </main>
 
