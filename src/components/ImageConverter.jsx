@@ -234,7 +234,7 @@ export default function ImageConverter() {
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={handleInputClick}
-        className="border-2 border-dashed border-gray-600 rounded-xl p-12 text-center cursor-pointer hover:border-blue-500 transition-colors bg-gray-800/30"
+        className="border-2 border-dashed border-gray-600 rounded-xl p-12 text-center cursor-pointer hover:border-blue-500 transition-all bg-gray-800/50"
       >
         <input
           ref={fileInputRef}
@@ -245,16 +245,20 @@ export default function ImageConverter() {
           onChange={handleInputChange}
         />
         
-        <Upload className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-200 mb-2">
-          拖拽图片到此处，或点击选择
-        </h3>
-        <p className="text-gray-400 mb-4">
-          支持 JPG, PNG, WEBP, GIF, BMP, HEIC 格式
-        </p>
-        <p className="text-sm text-gray-500">
-          支持批量上传，自动保持原始比例
-        </p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="p-4 rounded-full bg-gray-700">
+            <Upload className="w-8 h-8 text-gray-400" />
+          </div>
+          
+          <div className="space-y-2">
+            <p className="text-lg font-medium text-gray-200">
+              拖拽图片到此处，或点击选择
+            </p>
+            <p className="text-sm text-gray-400">
+              支持 JPG、PNG、WEBP、GIF、BMP、HEIC 格式
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* 全局设置 */}
