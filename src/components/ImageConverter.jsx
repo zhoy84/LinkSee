@@ -228,7 +228,7 @@ export default function ImageConverter() {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto">
+    <div className="w-full max-w-2xl mx-auto">
       {/* 上传区域 */}
       <div
         onDrop={handleDrop}
