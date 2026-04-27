@@ -111,7 +111,7 @@ export default function JsonFormatter() {
     { id: 'format', label: '格式化', icon: Expand },
     { id: 'compress', label: '压缩', icon: Minimize2 },
     { id: 'validate', label: '校验', icon: AlertCircle },
-    { id: 'typescript', label: '转TS类型', icon: FileCode },
+    { id: 'typescript', label: '转TS', icon: FileCode },
   ];
 
   return (
@@ -124,22 +124,22 @@ export default function JsonFormatter() {
               key={id}
               onClick={() => setMode(id)}
               className={twMerge(
-                'px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+                'px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center gap-1 whitespace-nowrap',
                 mode === id
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-400 hover:text-gray-200'
               )}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-3.5 h-3.5 flex-shrink-0" />
               {label}
             </button>
           ))}
         </div>
         <button
           onClick={processJson}
-          className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all flex items-center gap-2 whitespace-nowrap"
+          className="px-4 sm:px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all flex items-center gap-1.5 text-xs sm:text-sm"
         >
-          <ArrowRightLeft className="w-4 h-4" />
+          <ArrowRightLeft className="w-3.5 h-3.5" />
           开始处理
         </button>
       </div>
