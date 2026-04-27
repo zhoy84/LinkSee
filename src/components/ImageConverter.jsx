@@ -252,7 +252,7 @@ export default function ImageConverter() {
           
           <div className="space-y-2">
             <p className="text-lg font-medium text-gray-200">
-              拖拽图片到此处，或点击选择
+              点击或拖拽上传图片
             </p>
             <p className="text-sm text-gray-400">
               支持 JPG、PNG、WEBP、GIF、BMP、HEIC 格式
